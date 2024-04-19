@@ -1,0 +1,25 @@
+[package]
+name = "standle"
+version = "0.0.0"
+authors = ["me"]
+license = ""
+repository = ""
+description = "Stand up!"
+default-run = "standle"
+edition = "2021"
+
+[build-dependencies]
+tauri-build = { version = "1.5.1", features = [] }
+
+[dependencies]
+serde_json = "1.0.116"
+serde = { version = "1.0.198", features = ["derive"] }
+tauri = { version = "1.6.1", features = [ "system-tray", "api-all"] }
+cocoa = "0.25.0"
+objc = "0.2.7"
+
+[features]
+default = [ "custom-protocol" ]
+# this feature is used used for production builds where `devPath` points to the filesystem
+# DO NOT remove this
+custom-protocol = [ "tauri/custom-protocol" ]
