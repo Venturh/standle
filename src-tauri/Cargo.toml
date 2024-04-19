@@ -17,6 +17,14 @@ serde = { version = "1.0.198", features = ["derive"] }
 tauri = { version = "1.6.1", features = [ "system-tray", "api-all"] }
 cocoa = "0.25.0"
 objc = "0.2.7"
+include_dir = "0.7.3"
+itertools = "0.12.1"
+sqlx = "0.7.4"
+
+[dependencies.tauri-plugin-sql]
+git = "https://github.com/tauri-apps/plugins-workspace"
+branch = "v1"
+features = ["sqlite"] # or "postgres", or "mysql"
 
 [features]
 default = [ "custom-protocol" ]

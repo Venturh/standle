@@ -1,11 +1,16 @@
-#![cfg_attr(
-    all(not(debug_assertions), target_os = "windows"),
-    windows_subsystem = "windows"
-)]
+#![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+
+pub mod database;
 
 
+
+use std::fs;
+use sqlx::SqlitePool;
 use tauri::Manager;
 use tauri::{CustomMenuItem, PhysicalPosition, SystemTray, SystemTrayEvent, SystemTrayMenu};
+use tauri::async_runtime::block_on;
+
+use crate::database::load_migrations;
 
 #[cfg(target_os = "macos")]
 use cocoa::appkit::{NSWindow, NSWindowButton, NSWindowStyleMask, NSWindowTitleVisibility};
@@ -138,18 +143,32 @@ fn main() {
             _ => {}
         })
         .invoke_handler(tauri::generate_handler![backend_add])
+        .plugin(tauri_plugin_sql::Builder::default().add_migrations("sqlite:test.db", load_migrations()).build())
         .setup(|app| {
-            #[cfg(target_os = "macos")]
-            // don't show on the taskbar/springboard
-            app.set_activation_policy(tauri::ActivationPolicy::Accessory);
+            block_on(async move {
+                let handle = app.handle();
 
-            let window = app.get_window("main").unwrap();
-            #[cfg(target_os = "macos")]
-            window.set_transparent_titlebar(true, true);
+                let app_dir = handle.path_resolver().app_data_dir().expect("failed to get app data dir");
+                fs::create_dir_all(&app_dir).expect("failed to create app data dir");
+                let sqlite_path = app_dir.join("test.db").to_string_lossy().to_string();
 
-            window.set_always_on_top(true).unwrap();
+                let db = SqlitePool::connect(sqlite_path.as_str()).await.expect("failed to connect to sqlite");
+                app.manage(db);
 
-            Ok(())
+                #[cfg(target_os = "macos")]
+                // don't show on the taskbar/springboard
+                app.set_activation_policy(tauri::ActivationPolicy::Accessory);
+
+
+                let window = app.get_window("main").unwrap();
+                #[cfg(target_os = "macos")]
+                window.set_transparent_titlebar(true, true);
+
+                window.open_devtools();
+                window.set_always_on_top(true).unwrap();
+
+                Ok(())
+           })
         })
         .build(ctx)
         .expect("error while running tauri application")

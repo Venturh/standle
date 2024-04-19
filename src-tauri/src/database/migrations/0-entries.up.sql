@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS entries (
+    id INTEGER PRIMARY KEY,
+    time_in_seconds INTEGER NOT NULL,
+    note TEXT NULL,
+    started_at TIMESTAMP NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+);

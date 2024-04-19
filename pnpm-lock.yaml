@@ -8,11 +8,17 @@ dependencies:
   '@tauri-apps/api':
     specifier: 1.5.1
     version: 1.5.1
+  tauri-plugin-sql-api:
+    specifier: github:tauri-apps/tauri-plugin-sql#v1
+    version: github.com/tauri-apps/tauri-plugin-sql/fe26880383d97d28ab0cc339773e75ce80730ced
   vue:
     specifier: 3.4.1
     version: 3.4.1(typescript@5.4.2)
 
 devDependencies:
+  '@tanstack/vue-query':
+    specifier: ^5.29.0
+    version: 5.29.0(vue@3.4.1)
   '@tauri-apps/cli':
     specifier: 1.5.7
     version: 1.5.7
@@ -626,8 +632,40 @@ packages:
       defer-to-connect: 2.0.1
     dev: true
 
+  /@tanstack/match-sorter-utils@8.15.1:
+    resolution: {integrity: sha512-PnVV3d2poenUM31ZbZi/yXkBu3J7kd5k2u51CGwwNojag451AjTH9N6n41yjXz2fpLeewleyLBmNS6+HcGDlXw==}
+    engines: {node: '>=12'}
+    dependencies:
+      remove-accents: 0.5.0
+    dev: true
+
+  /@tanstack/query-core@5.29.0:
+    resolution: {integrity: sha512-WgPTRs58hm9CMzEr5jpISe8HXa3qKQ8CxewdYZeVnA54JrPY9B1CZiwsCoLpLkf0dGRZq+LcX5OiJb0bEsOFww==}
+    dev: true
+
+  /@tanstack/vue-query@5.29.0(vue@3.4.1):
+    resolution: {integrity: sha512-EYayEeVA4JwJrs3vPuDOd+4jVxvUJV1vAxsv7aflvBml6qR7EB9EkN8hW6MI7ciIJZORPiBye5VyveHR5SOlKg==}
+    peerDependencies:
+      '@vue/composition-api': ^1.1.2
+      vue: ^2.6.0 || ^3.3.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+    dependencies:
+      '@tanstack/match-sorter-utils': 8.15.1
+      '@tanstack/query-core': 5.29.0
+      '@vue/devtools-api': 6.6.1
+      vue: 3.4.1(typescript@5.4.2)
+      vue-demi: 0.14.7(vue@3.4.1)
+    dev: true
+
   /@tauri-apps/api@1.5.1:
     resolution: {integrity: sha512-6unsZDOdlXTmauU3NhWhn+Cx0rODV+rvNvTdvolE5Kls5ybA6cqndQENDt1+FS0tF7ozCP66jwWoH6a5h90BrA==}
+    engines: {node: '>= 14.6.0', npm: '>= 6.6.0', yarn: '>= 1.19.1'}
+    dev: false
+
+  /@tauri-apps/api@1.5.3:
+    resolution: {integrity: sha512-zxnDjHHKjOsrIzZm6nO5Xapb/BxqUq1tc7cGkFXsFkGTsSWgCPH1D8mm0XS9weJY2OaR73I3k3S+b7eSzJDfqA==}
     engines: {node: '>= 14.6.0', npm: '>= 6.6.0', yarn: '>= 1.19.1'}
     dev: false
 
@@ -1000,6 +1038,10 @@ packages:
     dependencies:
       '@vue/compiler-dom': 3.4.1
       '@vue/shared': 3.4.1
+
+  /@vue/devtools-api@6.6.1:
+    resolution: {integrity: sha512-LgPscpE3Vs0x96PzSSB4IGVSZXZBZHpfxs+ZA1d+VEPwHdOXowy/Y2CsvCAIFrf+ssVU1pD1jidj505EpUnfbA==}
+    dev: true
 
   /@vue/devtools-core@7.0.2(vite@5.2.7):
     resolution: {integrity: sha512-tyGuDlKmRVyR+7Pb8ImrOzRVKHGt+mT17k8qxjov1D1vcEsnz7VkjZRYhfckscAkFIoLqTTotPAh6oVEsD6U1w==}
@@ -3048,6 +3090,10 @@ packages:
     hasBin: true
     dev: true
 
+  /remove-accents@0.5.0:
+    resolution: {integrity: sha512-8g3/Otx1eJaVD12e31UbJj1YzdtVvzH85HV7t+9MJYk/u3XmkOUJ5Ys9wQrf9PCPK8+xn4ymzqYCiZl6QWKn+A==}
+    dev: true
+
   /require-directory@2.1.1:
     resolution: {integrity: sha512-fGxEI7+wsG9xrvdjsrlmL22OMTTiHRwAMroiEeMgq8gzoLC/PQr7RsRDSTLUg/bZAZtF+TVIkHc6/4RIKrui+Q==}
     engines: {node: '>=0.10.0'}
@@ -3690,6 +3736,21 @@ packages:
       fsevents: 2.3.3
     dev: true
 
+  /vue-demi@0.14.7(vue@3.4.1):
+    resolution: {integrity: sha512-EOG8KXDQNwkJILkx/gPcoL/7vH+hORoBaKgGe+6W7VFMvCYJfmF2dGbvgDroVnI8LU7/kTu8mbjRZGBU1z9NTA==}
+    engines: {node: '>=12'}
+    hasBin: true
+    requiresBuild: true
+    peerDependencies:
+      '@vue/composition-api': ^1.0.0-rc.1
+      vue: ^3.0.0-0 || ^2.6.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+    dependencies:
+      vue: 3.4.1(typescript@5.4.2)
+    dev: true
+
   /vue-eslint-parser@9.4.2(eslint@9.0.0):
     resolution: {integrity: sha512-Ry9oiGmCAK91HrKMtCrKFWmSFWvYkpGglCeFAIqDdr9zdXmMMpJOmUJS7WWsW7fX81h6mwHmUZCQQ1E0PkSwYQ==}
     engines: {node: ^14.17.0 || >=16.0.0}
@@ -3838,3 +3899,11 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
     dev: true
+
+  github.com/tauri-apps/tauri-plugin-sql/fe26880383d97d28ab0cc339773e75ce80730ced:
+    resolution: {tarball: https://codeload.github.com/tauri-apps/tauri-plugin-sql/tar.gz/fe26880383d97d28ab0cc339773e75ce80730ced}
+    name: tauri-plugin-sql-api
+    version: 0.0.0
+    dependencies:
+      '@tauri-apps/api': 1.5.3
+    dev: false
