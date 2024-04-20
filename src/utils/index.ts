@@ -5,14 +5,10 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function formatSeconds(
-  seconds = 0,
-  part?: "hours" | "minutes" | null,
-  seperator = ":"
-) {
+export function formatSeconds(seconds = 0, part?: "hours" | "minutes" | null) {
   const minutes = seconds / 60;
 
-  const hourString = (minutes / 60).toString().split(".")[0];
+  const hourString = (minutes / 60).toString().split(".")[0].padStart(2, "0");
   const minuteString = (Math.floor(Math.abs(minutes)) % 60)
     .toString()
     .padStart(2, "0");
@@ -20,5 +16,5 @@ export function formatSeconds(
   if (part === "hours") return hourString;
   if (part === "minutes") return minuteString;
 
-  return `${hourString}${seperator}${minuteString}`;
+  return `${hourString}:${minuteString}`;
 }

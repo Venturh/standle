@@ -77,11 +77,15 @@
   }
 }
 
+.hide-scrollbar::-webkit-scrollbar {
+  display: none !important;
+}
+
 @layer base {
   * {
     @apply border-border;
   }
   :root {
-    @apply antialiased bg-background text-foreground rounded-xl;
+    @apply antialiased bg-background text-foreground rounded-xl cursor-default;
   }
 }

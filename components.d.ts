@@ -13,6 +13,7 @@ declare module 'vue' {
     UiAccordionContent: typeof import('./src/components/ui/accordion/content.vue')['default']
     UiAccordionItem: typeof import('./src/components/ui/accordion/item.vue')['default']
     UiAccordionTrigger: typeof import('./src/components/ui/accordion/trigger.vue')['default']
+    UiBadge: typeof import('./src/components/ui/badge.vue')['default']
     UiButton: typeof import('./src/components/ui/button.vue')['default']
     UiDropdownMenu: typeof import('./src/components/ui/dropdown-menu/index.vue')['default']
     UiDropdownMenuCheckboxItem: typeof import('./src/components/ui/dropdown-menu/checkbox-item.vue')['default']
