@@ -134,23 +134,25 @@ fn main() {
         .on_window_event(|event| match event.event() {
             tauri::WindowEvent::CloseRequested { api, .. } => {
                 // don't kill the app when the user clicks close.
+                #[cfg(not(dev))]
                 event.window().hide().unwrap();
                 api.prevent_close();
             }
             tauri::WindowEvent::Focused(false) => {
+                #[cfg(not(dev))]
                 event.window().hide().unwrap();
             }
             _ => {}
         })
         .invoke_handler(tauri::generate_handler![backend_add])
-        .plugin(tauri_plugin_sql::Builder::default().add_migrations("sqlite:test.db", load_migrations()).build())
+        .plugin(tauri_plugin_sql::Builder::default().add_migrations("sqlite:standle.db", load_migrations()).build())
         .setup(|app| {
             block_on(async move {
                 let handle = app.handle();
 
                 let app_dir = handle.path_resolver().app_data_dir().expect("failed to get app data dir");
                 fs::create_dir_all(&app_dir).expect("failed to create app data dir");
-                let sqlite_path = app_dir.join("test.db").to_string_lossy().to_string();
+                let sqlite_path = app_dir.join("standle.db").to_string_lossy().to_string();
 
                 let db = SqlitePool::connect(sqlite_path.as_str()).await.expect("failed to connect to sqlite");
                 app.manage(db);
