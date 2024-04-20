@@ -1,20 +1,26 @@
+import path from "path";
 import vue from "@vitejs/plugin-vue";
 import { resolve } from "path";
 import AutoImport from "unplugin-auto-import/vite";
+import Components from "unplugin-vue-components/vite";
 import { defineConfig } from "vite";
 
 // See https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
-    // See https://github.com/unplugin/unplugin-auto-import
     AutoImport({
-      imports: ["vue"],
+      imports: ["vue", "@vueuse/core"],
       dts: "./src/auto-imports.d.ts",
       eslintrc: {
         enabled: true,
         filepath: resolve(__dirname, ".eslintrc-auto-import.json"),
       },
+    }),
+    Components({
+      dirs: ["./src/components"],
+      dts: true,
+      directoryAsNamespace: true,
     }),
   ],
   clearScreen: false,
@@ -22,6 +28,11 @@ export default defineConfig({
   server: {
     port: 1420,
     strictPort: true,
+  },
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+    },
   },
   build: {
     outDir: "./dist",

@@ -166,6 +166,7 @@ fn main() {
                 #[cfg(target_os = "macos")]
                 window.set_transparent_titlebar(true, true);
 
+                #[cfg(dev)]
                 window.open_devtools();
                 window.set_always_on_top(true).unwrap();
 

@@ -4,7 +4,7 @@
   "version": "0.4.0",
   "type": "module",
   "scripts": {
-    "dev": "cross-env RUST_BACKTRACE=1 concurrently -k \"tauri dev\" \"pnpm devtools\"",
+    "dev": "tauri dev",
     "build": "tauri build",
     "vite:dev": "vite dev",
     "vite:build": "vite build",
@@ -14,20 +14,27 @@
     "check": "cd src-tauri && cargo check"
   },
   "dependencies": {
+    "@radix-icons/vue": "^1.0.0",
     "@tauri-apps/api": "1.5.1",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
+    "radix-vue": "^1.7.1",
+    "tailwind-merge": "^2.3.0",
     "tauri-plugin-sql-api": "github:tauri-apps/tauri-plugin-sql#v1",
     "vue": "3.4.1"
   },
   "devDependencies": {
+    "@heroicons/vue": "^2.1.3",
     "@tanstack/vue-query": "^5.29.0",
     "@tauri-apps/cli": "1.5.7",
     "@types/node": "20.12.5",
     "@vitejs/plugin-vue": "5.0.1",
-    "@vue/devtools": "7.0.2",
     "@vue/eslint-config-typescript": "13.0.0",
+    "@vueuse/core": "^10.9.0",
     "autoprefixer": "10.4.16",
     "concurrently": "8.2.2",
     "cross-env": "7.0.3",
+    "date-fns": "^3.6.0",
     "eslint": "9.0.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-n": "17.2.0",
@@ -37,8 +44,10 @@
     "postcss-import": "16.1.0",
     "postcss-nesting": "12.1.0",
     "tailwindcss": "3.4.0",
+    "tailwindcss-animate": "^1.0.7",
     "typescript": "5.4.2",
     "unplugin-auto-import": "0.17.2",
+    "unplugin-vue-components": "^0.26.0",
     "vite": "5.2.7",
     "vue-tsc": "2.0.1"
   }

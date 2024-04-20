@@ -75,7 +75,8 @@ export const useEntries = createGlobalState(() => {
 
     intervalId = setInterval(() => {
       if (currentEntry.value) {
-        currentEntry.value.time_in_seconds += 10;
+        const isDevelopment = process.env.NODE_ENV === "development";
+        currentEntry.value.time_in_seconds += isDevelopment ? 30 : 1;
       }
     }, 1000);
   }
