@@ -1,7 +1,7 @@
 {
   "package": {
-    "productName": "Tauri Vue Template",
-    "version": "0.4.0"
+    "productName": "Standle",
+    "version": "../package.json"
   },
   "build": {
     "distDir": "../dist",
@@ -52,10 +52,11 @@
     "windows": [
       {
         "title": "Standle",
-        "width": 800,
-        "height": 600,
-        "resizable": true,
+        "width": 448,
+        "height": 640,
+        "resizable": false,
         "fullscreen": false,
+        "decorations": false,
         "alwaysOnTop": true
       }
     ],
