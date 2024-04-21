@@ -4,8 +4,6 @@ pub mod database;
 
 
 
-use std::fs;
-use sqlx::SqlitePool;
 use tauri::Manager;
 use tauri::{CustomMenuItem, PhysicalPosition, SystemTray, SystemTrayEvent, SystemTrayMenu};
 use tauri::async_runtime::block_on;
@@ -23,6 +21,11 @@ use tauri::{Runtime, Window};
 #[cfg(target_os = "macos")]
 #[macro_use]
 extern crate objc;
+
+#[cfg(dev)]
+const IDENTIFIER: &str = "werpers.standle.dev";
+#[cfg(not(dev))]
+const IDENTIFIER: &str = "werpers.standle";
 
 pub trait WindowExt {
     #[cfg(target_os = "macos")]
@@ -84,7 +87,8 @@ fn main() {
         .with_menu(tray_menu)
         .with_menu_on_left_click(false);
 
-    let ctx = tauri::generate_context!();
+    let mut ctx = tauri::generate_context!();
+    ctx.config_mut().tauri.bundle.identifier = IDENTIFIER.to_string();
 
 
 
@@ -148,14 +152,6 @@ fn main() {
         .plugin(tauri_plugin_sql::Builder::default().add_migrations("sqlite:standle.db", load_migrations()).build())
         .setup(|app| {
             block_on(async move {
-                let handle = app.handle();
-
-                let app_dir = handle.path_resolver().app_data_dir().expect("failed to get app data dir");
-                fs::create_dir_all(&app_dir).expect("failed to create app data dir");
-                let sqlite_path = app_dir.join("standle.db").to_string_lossy().to_string();
-
-                let db = SqlitePool::connect(sqlite_path.as_str()).await.expect("failed to connect to sqlite");
-                app.manage(db);
 
                 #[cfg(target_os = "macos")]
                 // don't show on the taskbar/springboard
