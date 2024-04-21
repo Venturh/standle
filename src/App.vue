@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { format } from "date-fns";
+import { addMonths, format, subMonths } from "date-fns";
 import { useEntries } from "@/composables/entries";
 import { formatSeconds } from "@/utils";
 import { Entry } from "./services/entry";
 
-const { entries } = useEntries();
+const { entries, currentEntry, selectedMonth } = useEntries();
 
 const entriesByTrackedDate = computed(() => {
   const data = entries.value?.reduce((acc, entry) => {
@@ -23,12 +23,62 @@ const entriesByTrackedDate = computed(() => {
 });
 
 function totalSecondsForEntries(entries: Entry[]) {
-  return entries.reduce((acc, entry) => acc + entry.time_in_seconds, 0);
+  return entries.reduce(
+    (acc, entry) =>
+      acc +
+      (entry.id === currentEntry.value?.id
+        ? currentEntry.value!.time_in_seconds
+        : entry.time_in_seconds),
+    0
+  );
 }
+
+function showPreviousMonth() {
+  selectedMonth.value = format(
+    subMonths(new Date(selectedMonth.value), 1),
+    "yyyy-MM"
+  );
+}
+function showNextMonth() {
+  selectedMonth.value = format(
+    addMonths(new Date(selectedMonth.value), 1),
+    "yyyy-MM"
+  );
+}
+
+const isDev = process.env.NODE_ENV === "development";
 </script>
 
 <template>
   <div class="flex flex-col max-w-md mx-auto overflow-hidden h-screen">
+    <span v-if="isDev" class="text-lg absolute bottom-1 left-1"> Dev </span>
+
+    <div class="flex items-center justify-center">
+      <span class="isolate inline-flex rounded-md shadow-sm">
+        <UiButton
+          type="button"
+          class="!rounded-l-md !rounded-none"
+          variant="outline"
+          @click="showPreviousMonth"
+        >
+          Previous
+        </UiButton>
+        <div
+          class="relative -ml-px inline-flex items-center px-3 text-sm font-medium border border-input"
+        >
+          {{ format(new Date(selectedMonth), "MMMM yyyy") }}
+        </div>
+        <UiButton
+          type="button"
+          class="!rounded-r-md !rounded-none"
+          variant="outline"
+          @click="showNextMonth"
+        >
+          Next
+        </UiButton>
+      </span>
+    </div>
+
     <Timer class="sticky top-0 px-4" />
     <div class="w-full h-0.5 bg-border my-6" />
     <div class="overflow-y-auto hide-scrollbar h-full px-4">

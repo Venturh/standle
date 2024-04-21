@@ -1,10 +1,15 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
 import { createGlobalState } from "@vueuse/core";
 import { Entry, EntryService } from "@/services/entry";
+import { format } from "date-fns";
 
 export const useEntries = createGlobalState(() => {
+  const selectedMonth = ref(format(new Date(), "yyyy-MM"));
+
+  const date = computed(() => format(selectedMonth.value, "MM-yyyy"));
+
   const { data: entries, isLoading } = useQuery({
-    queryKey: ["entries", "04-2024"],
+    queryKey: ["entries", date],
     //@ts-expect-error later
     queryFn: EntryService.getAllByDate,
     initialData: [],
@@ -138,5 +143,6 @@ export const useEntries = createGlobalState(() => {
     editEntryPending,
     destroyEntry,
     destroyEntryPending,
+    selectedMonth,
   };
 });

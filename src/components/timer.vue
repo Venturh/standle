@@ -42,11 +42,24 @@ function onSubmit() {
   <div class="pt-4">
     <form class="flex items-center space-x-2" @submit.prevent="onSubmit">
       <UiInput
+        autofocus
         placeholder="Notiz"
         :modelValue="currentEntry?.note ?? newEntry.note ?? undefined"
         @update:modelValue="onNoteChange"
         :disabled="currentEntry"
       />
+      <UiSelect v-model="newEntry.type">
+        <UiSelectTrigger class="w-min">
+          <UiSelectValue placeholder="Type" />
+        </UiSelectTrigger>
+        <UiSelectContent>
+          <UiSelectGroup>
+            <UiSelectLabel>Type</UiSelectLabel>
+            <UiSelectItem value="standing"> Standing </UiSelectItem>
+            <UiSelectItem value="sitting"> Sitting </UiSelectItem>
+          </UiSelectGroup>
+        </UiSelectContent>
+      </UiSelect>
 
       <UiButton
         class="shrink-0"

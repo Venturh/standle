@@ -1,8 +1,8 @@
-<script setup lang="ts">
 import { cva } from "class-variance-authority";
-import { cn } from "@/utils";
 
-const buttonVariants = cva(
+export { default as Button } from "./index.vue";
+
+export const buttonVariants = cva(
   "inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 cursor-default",
   {
     variants: {
@@ -32,31 +32,3 @@ const buttonVariants = cva(
     },
   }
 );
-
-interface Props {
-  variant?: NonNullable<Parameters<typeof buttonVariants>[0]>["variant"];
-  size?: NonNullable<Parameters<typeof buttonVariants>[0]>["size"];
-  as?: string;
-  rounded?: boolean;
-}
-
-// eslint-disable-next-line vue/define-macros-order
-withDefaults(defineProps<Props>(), {
-  as: "button",
-});
-</script>
-
-<template>
-  <component
-    :is="as"
-    :class="
-      cn(
-        buttonVariants({ variant, size }),
-        { '!rounded-full': rounded },
-        $attrs.class ?? ''
-      )
-    "
-  >
-    <slot />
-  </component>
-</template>

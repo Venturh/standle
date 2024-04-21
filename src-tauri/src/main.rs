@@ -81,7 +81,7 @@ fn backend_add(number: i32) -> i32 {
 
 fn main() {
 
-    let quit = CustomMenuItem::new("quit".to_string(), "Quit BuildLog");
+    let quit = CustomMenuItem::new("quit".to_string(), "Quit Standle");
     let tray_menu = SystemTrayMenu::new().add_item(quit);
     let system_tray = SystemTray::new()
         .with_menu(tray_menu)

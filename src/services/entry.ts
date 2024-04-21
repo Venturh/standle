@@ -38,6 +38,7 @@ async function getAllByDate({
   queryKey,
 }: QueryFunctionContext<[string, string]>) {
   const [_key, date] = queryKey;
+
   const [month, year] = date.split("-");
 
   const db = await database();
