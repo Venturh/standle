@@ -7,6 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    BarChart: typeof import('./src/components/bar-chart.vue')['default']
     EntryCard: typeof import('./src/components/entry-card.vue')['default']
     Timer: typeof import('./src/components/timer.vue')['default']
     UiAccordion: typeof import('./src/components/ui/accordion/index.vue')['default']

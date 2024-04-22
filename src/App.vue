@@ -3,8 +3,12 @@ import { addMonths, format, subMonths } from "date-fns";
 import { useEntries } from "@/composables/entries";
 import { formatSeconds } from "@/utils";
 import { Entry } from "./services/entry";
+import { ChevronLeftIcon, ChevronRightIcon, ClockIcon } from "@radix-icons/vue";
+import { HomeIcon } from "@heroicons/vue/24/solid";
 
 const { entries, currentEntry, selectedMonth } = useEntries();
+
+const isAnalyticsShown = ref(false);
 
 const entriesByTrackedDate = computed(() => {
   const data = entries.value?.reduce((acc, entry) => {
@@ -56,12 +60,12 @@ const isDev = process.env.NODE_ENV === "development";
     <div class="flex items-center justify-center">
       <span class="isolate inline-flex rounded-md shadow-sm">
         <UiButton
-          type="button"
+          size="icon"
           class="!rounded-l-md !rounded-none"
           variant="outline"
           @click="showPreviousMonth"
         >
-          Previous
+          <ChevronLeftIcon class="w-5 h-5" />
         </UiButton>
         <div
           class="relative -ml-px inline-flex items-center px-3 text-sm font-medium border border-input"
@@ -69,51 +73,68 @@ const isDev = process.env.NODE_ENV === "development";
           {{ format(new Date(selectedMonth), "MMMM yyyy") }}
         </div>
         <UiButton
-          type="button"
+          size="icon"
           class="!rounded-r-md !rounded-none"
           variant="outline"
           @click="showNextMonth"
         >
-          Next
+          <ChevronRightIcon class="w-5 h-5" />
+        </UiButton>
+        <UiButton
+          size="icon"
+          variant="outline"
+          @click="isAnalyticsShown = !isAnalyticsShown"
+        >
+          <component
+            :is="isAnalyticsShown ? ClockIcon : HomeIcon"
+            class="w-5 h-5"
+          />
         </UiButton>
       </span>
     </div>
 
     <Timer class="sticky top-0 px-4" />
     <div class="w-full h-0.5 bg-border my-6" />
-    <div class="overflow-y-auto hide-scrollbar h-full px-4">
-      <div v-if="Object.keys(entriesByTrackedDate).length > 0">
-        <UiAccordion
-          type="multiple"
-          class="w-full"
-          collapsible
-          :default-value="[entriesByTrackedDate[0][0]]"
-        >
-          <UiAccordionItem
-            v-for="[date, entries] in entriesByTrackedDate"
-            :key="date"
-            :value="date"
+
+    <template v-if="isAnalyticsShown">
+      <BarChart />
+    </template>
+
+    <template v-else>
+      <div class="overflow-y-auto hide-scrollbar h-full px-4">
+        <div v-if="Object.keys(entriesByTrackedDate).length > 0">
+          <UiAccordion
+            type="multiple"
+            class="w-full"
+            collapsible
+            :default-value="[entriesByTrackedDate[0][0]]"
           >
-            <UiAccordionTrigger class="text-base">
-              {{ date }}
-              <template #trigger>
-                <span>
-                  {{ formatSeconds(totalSecondsForEntries(entries)) }}
-                </span>
-              </template>
-            </UiAccordionTrigger>
-            <UiAccordionContent>
-              <ul class="divide-y">
-                <EntryCard
-                  v-for="entry in entries"
-                  :entry="entry"
-                  :key="entry.id"
-                />
-              </ul>
-            </UiAccordionContent>
-          </UiAccordionItem>
-        </UiAccordion>
+            <UiAccordionItem
+              v-for="[date, entries] in entriesByTrackedDate"
+              :key="date"
+              :value="date"
+            >
+              <UiAccordionTrigger class="text-base">
+                {{ date }}
+                <template #trigger>
+                  <span>
+                    {{ formatSeconds(totalSecondsForEntries(entries)) }}
+                  </span>
+                </template>
+              </UiAccordionTrigger>
+              <UiAccordionContent>
+                <ul class="divide-y">
+                  <EntryCard
+                    v-for="entry in entries"
+                    :entry="entry"
+                    :key="entry.id"
+                  />
+                </ul>
+              </UiAccordionContent>
+            </UiAccordionItem>
+          </UiAccordion>
+        </div>
       </div>
-    </div>
+    </template>
   </div>
 </template>
