@@ -123,11 +123,11 @@ export const useEntries = createGlobalState(() => {
     }
   );
 
-  onUnmounted(() => {
-    if (currentEntry.value) {
-      stopTimer(currentEntry.value);
-    }
-  });
+  //   onUnmounted(() => {
+  //     if (currentEntry.value) {
+  //       stopTimer(currentEntry.value);
+  //     }
+  //   });
 
   return {
     entries,
